@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #17252A;
+            color: #fff; /* Set text color to white */
+        }
+
+        .login-container {
+            margin: 50px auto;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        form {
+            background-color: #2b7a78;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff; /* Set input background color to white */
+            color: #000; /* Set input text color to black */
+        }
+
+        button {
+            background-color: #3aafa9;
+            color: #fff; /* Set button text color to white */
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #2b7a78;
+        }
+
+        .signup-link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .signup-link a {
+            color: #3aafa9; /* Set link color to match the button color */
+            text-decoration: underline; /* Add underline effect to links */
+        }
+
+        /* Password strength meter */
+        .password-strength-meter {
+            margin-top: 10px;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s;
+        }
+
+        /* Password strength levels */
+        .strength-weak {
+            background-color: #ff4d4d;
+        }
+
+        .strength-moderate {
+            background-color: #ffc107;
+        }
+
+        .strength-strong {
+            background-color: #28a745;
+        }
+
+        /* Password confirmation feedback*/
+        .confirmation-feedback {
+            margin-top: 10px;
+            color: red;
+            font-size: 14px;
+        }
+
+        /* Eye icon styles */
+        .eye-icon {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            font-size: 16px;
+            color: #555;
+            z-index: 1;
+        }
+    </style>
+    <script>
+        // Toggle password visibility
+        function togglePasswordVisibility(inputId, iconId) {
+            const passwordInput = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(iconId);
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Check if the passwords match
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const confirmationFeedback = document.getElementById('confirmationFeedback');
+            const passwordStrengthContainer = document.getElementById('passwordStrengthContainer');
+
+            if (password !== confirmPassword) {
+                confirmationFeedback.innerHTML = 'Passwords do not match! Please enter them again.';
+                return false;
+            } else {
+                confirmationFeedback.innerHTML = ''; // Clear previous feedback
+
+                // Hide the password strength meter once the password is confirmed
+                passwordStrengthContainer.style.display = 'none';
+
+                return true;
+            }
+        }
+
+        // Check password strength
+        function checkPasswordStrength(password) {
+            const strengthCriteria = [
+                { regex: /[a-z]/, message: 'At least one lowercase letter' },
+                { regex: /[A-Z]/, message: 'At least one uppercase letter' },
+                { regex: /\d/, message: 'At least one digit' },
+                { regex: /[!@#$%^&*(),.?":{}|<>]/, message: 'At least one special character' },
+                { regex: /.{8,}/, message: 'Minimum length of 8 characters' },
+            ];
+
+            let strength = 0;
+
+            for (const criteria of strengthCriteria) {
+                if (criteria.regex.test(password)) {
+                    strength++;
+                }
+            }
+
+            return strength;
+        }
+
+        // Update password strength meter
+        function updatePasswordStrengthMeter() {
+            const password = document.getElementById('password').value;
+            const passwordStrength = checkPasswordStrength(password);
+            const passwordStrengthBar = document.getElementById('passwordStrengthBar');
+            const passwordStrengthContainer = document.getElementById('passwordStrengthContainer');
+
+            // Set the width of the strength bar based on the password strength
+            if (passwordStrength === 0) {
+                passwordStrengthBar.style.width = '0';
+            } else {
+                const width = (passwordStrength / 5) * 100;
+                passwordStrengthBar.style.width = `${width}%`;
+
+                // Apply different styles based on the strength level
+                if (passwordStrength <= 2) {
+                    passwordStrengthBar.className = 'password-strength-bar strength-weak';
+                } else if (passwordStrength <= 3) {
+                    passwordStrengthBar.className = 'password-strength-bar strength-moderate';
+                } else {
+                    passwordStrengthBar.className = 'password-strength-bar strength-strong';
+                }
+
+                // Show the password strength meter
+                passwordStrengthContainer.style.display = 'block';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="login-container">
+        <h1>Sign Up</h1>
+        <!-- Signup form with fields for username, password, password confirmation, full name, email, student ID, and year -->
+        <form action="/signup" method="post" id="signup-form">
+            <input type="text" id="username" name="username" placeholder="Username" required/>
+            <!-- Password input with eye icon -->
+            <div style="position: relative">
+                <input type="password" id="password" name="password" placeholder="Password" required oninput="updatePasswordStrengthMeter()"/>
+                <i class="eye-icon fas fa-eye" id="eyeIcon" onclick="togglePasswordVisibility('password', 'eyeIcon')"></i>
+            </div>
+            <!-- Password strength meter container -->
+            <div id="passwordStrengthContainer" class="password-strength-meter" style="display: none">
+                <div class="password-strength-bar" id="passwordStrengthBar"></div>
+            </div>
+
+            <!-- Password confirmation feedback -->
+            <p class="confirmation-feedback" id="confirmationFeedback"></p>
+
+            <!-- Confirm password input with eye icon -->
+            <div style="position: relative">
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required oninput="checkPassword();" />
+                <i class="eye-icon fas fa-eye" id="confirmEyeIcon" onclick="togglePasswordVisibility('confirmPassword', 'confirmEyeIcon')"></i>
+            </div>
+
+            <input type="text" id="fullName" name="fullName" placeholder="Full Name" required/>
+            <input type="email" id="email" name="email" placeholder="Email" required/>
+            <input type="text" id="studentId" name="studentId" placeholder="Student ID" required/>
+            <input type="text" id="year" name="year" placeholder="Year" required/>
+
+            <!-- Send the form data to the server for signup -->
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <!-- Link to the login page-->
+        <p class="signup-link">
+            Already have an account? <a href="/">Login here</a>.
+        </p>
+    </div>
+</body>
+</html>

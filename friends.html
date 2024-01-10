@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+        <title>Friends</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #17252A;
+                color: #fff;
+                text-align: center;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }
+
+            input {
+                padding: 10px;
+                margin: 10px;
+                border: 1px solid #3aafa9;
+                border-radius: 5px;
+                background-color: #2b7a78;
+                color: #fff;
+                width: 200px;
+                font-size: 16px;
+            }
+
+            input::placeholder {
+                color: #fff; /* Set the color of the placeholder text to white */
+            }
+
+            button {
+                padding: 12px;
+                margin: 10px;
+                background-color: #3aafa9;
+                border: none;
+                border-radius: 5px;
+                color: #fff;
+                cursor: pointer;
+                width: 200px;
+                font-size: 16px;
+            }
+            nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+        display: flex;
+        justify-content: center;
+        background-color: #2b7a78;
+        padding: 1em 0;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #fff;
+        transition: color 0.3s ease-in-out;
+        padding: 0.5em 1em;
+        margin: 0 5px;
+    }
+
+    nav a:hover {
+        color: #fff;
+    }
+        </style>
+    </head>
+
+    <body>
+        <nav>
+            <a href="/schedule">Schedule</a>
+            <a href="/upload">Upload</a>
+            <a href="/friends">Friends</a>
+            <a href="/about">About</a> 
+            <a href="/features">Features</a>
+            <a href="/support">Support</a>
+            <a href="/contact">Contact</a>
+          </nav>
+        <form action="/friendSchedule" method="get" id="friend-form">
+            <input type="text" id="fusername" name="fusername" placeholder="Friend's Username" required />
+            <button type="submit">Find Friend</button>
+        </form>
+        <script>
+            function submitForm() {
+                const fusername = document.getElementById('fusername').value;
+                const redirectUrl = `/friendSchedule?fusername=${encodeURIComponent(fusername)}`;
+                window.location.href = redirectUrl;
+                return false; // Prevent the form from submitting the traditional way
+            }
+        </script>
+        <footer>
+            <p>&copy; 2023 Academat. All rights reserved.</p>
+        </footer>
+    </body>
+</html>

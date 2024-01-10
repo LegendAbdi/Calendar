@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academate Support</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #17252A;
+            color: #fff;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            background-color: #2b7a78;
+            padding: 1em 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            transition: color 0.3s ease-in-out;
+            padding: 0.5em 1em;
+            margin: 0 5px;
+        }
+
+        nav a:hover {
+            color: #fff;
+        }
+
+        .header-wrapper {
+            background-color: #3aafa9;
+            padding: 120px 3em 3em;
+            margin-bottom: 40px;
+        }
+
+        header {
+            color: #000;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 0.5em;
+        }
+
+        section {
+            text-align: center;
+            padding: 2em;
+        }
+
+        .faq-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            border: 2px solid #2b7a78;
+            border-radius: 15px;
+            background-color: #2b7a78;
+            max-width: 70%;
+            margin: 0 auto;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .faq-item {
+            width: 100%;
+            background-color: #c1d3d2;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .faq-item p.question {
+            background-color: #c1d3d2;
+            color: #000;
+            border-radius: 8px 8px 0 0;
+            padding: 10px;
+        }
+
+        .faq-item p {
+            padding: 20px;
+            color: #2b7a78; /* Set answer color to green */
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <nav>
+        <a href="/schedule">Schedule</a>
+        <a href="/upload">Upload</a>
+        <a href="/friends">Friends</a>
+        <a href="/about">About</a> 
+        <a href="/features">Features</a>
+        <a href="/support">Support</a>
+        <a href="/contact">Contact</a>
+    </nav>
+
+    <div class="header-wrapper">
+        <header>
+            <h1>Support</h1>
+        </header>
+    </div>
+    <section>
+        <div class="faq-container">
+            <div class="faq-item">
+                <p class="question">Q: How do I create an account on Academate?</p>
+                <p>A: To create an account, click on the "Sign Up" button on the homepage and follow the registration process.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="question">Q: Can I use Academate on multiple devices?</p>
+                <p>A: Yes, Academate is designed to sync seamlessly across multiple devices. Simply log in to your account on each device.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="question">Q: How do I reset my password?</p>
+                <p>A: On the login page, click on the "Forgot Password" link, and follow the instructions sent to your registered email address.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="question">Q: Is Academate available for Android and iOS?</p>
+                <p>A: SOON!, Academate will soon be available for both Android and iOS devices. You will be able to download it from the respective app stores.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Academate. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

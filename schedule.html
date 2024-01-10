@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #17252A;
+        color: #fff;
+        text-align: center;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    a {
+        color: #3aafa9;
+        text-decoration: none;
+        margin-right: 20px;
+    }
+
+    #calendar {
+        margin: 100px 100px; /* Added margins */
+        background-color: #2b7a78;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+        display: flex;
+        justify-content: center;
+        background-color: #2b7a78;
+        padding: 1em 0;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #fff;
+        transition: color 0.3s ease-in-out;
+        padding: 0.5em 1em;
+        margin: 0 5px;
+    }
+
+    nav a:hover {
+        color: #fff;
+    }
+
+    footer {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+    }
+</style>
+</head>
+<body>
+
+  <nav>
+    <a href="/schedule">Schedule</a>
+    <a href="/upload">Upload</a>
+    <a href="/friends">Friends</a>
+    <a href="/about">About</a> 
+    <a href="/features">Features</a>
+    <a href="/support">Support</a>
+    <a href="/contact">Contact</a>
+  </nav>
+
+  <div id="calendar"></div>
+
+  <script>
+    $(document).ready(function() {
+      // Fetch schedule data from MongoDB
+      fetch('/getSchedule')
+        .then(response => response.json())
+        .then(data => {
+        console.log(data)
+          // Display the calendar using FullCalendar
+          $('#calendar').fullCalendar({
+            header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'month,agendaWeek,agendaDay',
+            },
+            events: parseScheduleData(data), // Parse schedule data and convert to FullCalendar format
+            eventClick: function(calEvent) {
+              // Redirect to a new page with date and title
+              console.log(calEvent)
+              const redirectUrl = `/scheduleDetails?date=${calEvent.start.format()}&title=${calEvent.title}&uid=${calEvent.uid}`;
+              window.location.href = redirectUrl;
+            },
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching schedule:', error);
+        });
+
+      // Function to parse schedule data and convert to FullCalendar format
+      function parseScheduleData(scheduleData) {
+        console.log(scheduleData)
+        const events = [];
+
+        // Loop through each event in the schedule data
+        for (const key in scheduleData) {
+          const event = scheduleData[key];
+
+          // Assuming the schedule data has a 'start' property
+          if (event.start) {
+            events.push({
+              title: event.summary || 'No Title',
+              start: moment(event.start).format(), // Format start time
+              end: moment(event.end).format(),     // Format end time
+              uid: event.uid
+            });
+          }
+        }
+
+        return events;
+      }
+    });
+  </script>
+  <footer>
+      <p>&copy; 2023 Academat. All rights reserved.</p>
+  </footer>
+</body>
+</html>

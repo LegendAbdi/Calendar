@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Note Taking App</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .notes-title {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                margin: 2%;
+                font-weight: bold;
+                font-size: 25px;
+            }
+
+            .class-title {
+                padding: 2px;
+            }
+
+            .today-date {
+                padding: 2px;
+            }
+
+            #editor-container {
+                height: 300px;
+                background-color: white;
+                max-width: 800px;
+                margin: 30px auto;
+                padding: 20px;
+                box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            }
+            button {
+                background-color: #4caf50;
+                border: none;
+                border-radius: 4px;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+
+            .dark-mode {
+                background-color: #333;
+                color: #fff;
+            }
+            .dark-mode #editor-container,
+            .dark-mode #theme-selector {
+                background-color: #555;
+                color: #fff;
+            }
+
+            #theme-selector {
+                padding: 10px 20px;
+                margin: 10px auto;
+            }
+
+            .dark-mode .ql-toolbar {
+                background-color: #9e9d9d;
+                color: white;
+            }
+
+            .dark-mode .ql-toolbar button {
+                color: white;
+            }
+
+            .dark-mode .ql-toolbar button:hover {
+                background-color: white;
+            }
+
+            .dark-mode .ql-toolbar {
+                border-color: #34495e;
+            }
+
+            #check-box {
+                margin: 10px auto;
+            }
+            #api-data p {
+                font-size: 18px;
+                color: #4caf50;
+            }
+
+            #api-data span {
+                font-style: italic;
+                font-weight: bold;
+                color: #22be27;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="notes-title">
+            <div class="class-title">{{title}}</div>
+            <div class="today-date">Date: {{date}}</div>
+        </div>
+        <select id="theme-selector">
+            <option value="light">Light Theme</option>
+            <option value="dark">Dark Theme</option>
+        </select>
+
+        <form method="post" action="/updateDetails">
+            <div id="api-data"></div>
+            <textarea name="notes" id="notes" rows="20" cols="100">{{notes}}</textarea>
+            <input type="hidden" name="uid" value="{{uid}}">
+            <div id="check-box">
+                <label>
+                    <input
+                        type="radio"
+                        name="notePrivacy"
+                        value="private"
+                        checked
+                    />
+                    Private
+                </label>
+                <label>
+                    <input type="radio" name="notePrivacy" value="public" /> Public
+                </label>
+            </div>
+            <input type="hidden" id="notes" name="notes">
+            <button id="saveButton">Save Note</button>
+        </form>
+
+        <script>
+
+            function fetchData() {
+                fetch('https://type.fit/api/quotes')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        //display quote
+                        const apiDataElement =
+                            document.getElementById('api-data');
+
+                        const randomIndex = Math.floor(
+                            Math.random() * data.length //random index within data array bounds
+                        );
+                        const firstQuote = data[randomIndex]; //get first quote
+                        const author = firstQuote.author.split(',')[0].trim(); //removing uneccessary part
+                        apiDataElement.innerHTML = `
+                <p><span>${author}</span>: ${firstQuote.text}</p>
+            `;
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching data:', error);
+                    });
+            }
+
+            window.onload = function () {
+                fetchData(); //display quote of the day
+            };
+        </script>
+    </body>
+</html>
